@@ -21,32 +21,31 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
   // ボスを攻撃する関数を設定します。
   const runAttackAction = async () => {
     try {
-    // コントラクトが呼び出されたことを確認します。
-    if (gameContract) {
-      // attackState の状態を attacking に設定します。
-      setAttackState('attacking');
-      console.log('Attacking boss...');
-  
-      // NFT キャラクターがボスを攻撃します。
-      const attackTxn = await gameContract.attackBoss();
-  
-      // トランザクションがマイニングされるまで待ちます。
-      await attackTxn.wait();
-      console.log('attackTxn:', attackTxn);
-  
-      // attackState の状態を hit に設定します。
-      setAttackState('hit');
-  
+      // コントラクトが呼び出されたことを確認します。
+      if (gameContract) {
+        // attackState の状態を attacking に設定します。
+        setAttackState("attacking");
+        console.log("Attacking boss...");
+
+        // NFT キャラクターがボスを攻撃します。
+        const attackTxn = await gameContract.attackBoss();
+
+        // トランザクションがマイニングされるまで待ちます。
+        await attackTxn.wait();
+        console.log("attackTxn:", attackTxn);
+
+        // attackState の状態を hit に設定します。
+        setAttackState("hit");
+
         // 攻撃ダメージの表示をtrueに設定し（表示）、5秒後にfalseに設定する（非表示）
         setShowToast(true);
         setTimeout(() => {
           setShowToast(false);
         }, 5000);
-  
       }
     } catch (error) {
-      console.error('Error attacking boss:', error);
-      setAttackState('');
+      console.error("Error attacking boss:", error);
+      setAttackState("");
     }
   };
 
@@ -120,7 +119,10 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
           <div className={`boss-content  ${attackState}`}>
             <h2>🔥 {boss.name} 🔥</h2>
             <div className="image-content">
-              <img src={boss.imageURI} alt={`Boss ${boss.name}`} />
+              <img
+                src={`https://cloudflare-ipfs.com/ipfs/${boss.imageURI}`}
+                alt={`Boss ${boss.name}`}
+              />
               <div className="health-bar">
                 <progress value={boss.hp} max={boss.maxHp} />
                 <p>{`${boss.hp} / ${boss.maxHp} HP`}</p>
@@ -150,7 +152,7 @@ const Arena = ({ characterNFT, setCharacterNFT }) => {
               <div className="image-content">
                 <h2>{characterNFT.name}</h2>
                 <img
-                  src={characterNFT.imageURI}
+                  src={`https://cloudflare-ipfs.com/ipfs/${characterNFT.imageURI}`}
                   alt={`Character ${characterNFT.name}`}
                 />
                 <div className="health-bar">
